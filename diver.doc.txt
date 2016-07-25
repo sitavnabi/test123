@@ -1,0 +1,298 @@
+﻿<!doctype html> 
+	
+
+	<html lang="en"> 
+	
+
+	<head> 
+	
+
+	<meta charset="UTF-8"> 
+	
+
+	<title>CH5EX14: Simple Gravity</title> 
+	
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script> 
+	
+
+	<script type="text/javascript"> 
+	
+
+	window.addEventListener('load', eventWindowLoaded, false); 
+	
+
+	var theCanvas=null, 
+	
+
+	context=null, 
+	
+
+	interval=0; 
+	
+
+	function eventWindowLoaded() { 
+	
+
+	canvasApp(); 
+	
+
+	} 
+	
+
+	
+
+	
+
+	function canvasSupport () { 
+	
+
+	return Modernizr.canvas; 
+	
+
+	} 
+	
+
+	
+
+	
+
+	function canvasApp() { 
+	
+
+	
+
+	
+
+	if (!canvasSupport()) { 
+	
+
+	return; 
+	
+
+	} 
+	
+
+	
+
+	
+
+	function drawScreen () { 
+	
+
+	
+
+	
+
+	context.fillStyle = '#EEEEEE'; 
+	
+
+	context.fillRect(0, 0, theCanvas.width, theCanvas.height); 
+	
+
+	//Box 
+	
+
+	context.strokeStyle = '#000000'; 
+	
+
+	context.strokeRect(1, 1, theCanvas.width-2, theCanvas.height-2); 
+	
+
+	
+
+	
+
+	if (ball.y + ball.radius <= theCanvas.height) { 
+	
+
+	ball.velocityy += gravity; 
+	
+
+	} else { 
+	
+
+	ball.velocityx = 0; 
+	
+
+	ball.velocityy = 0; 
+	
+
+	ball.y = theCanvas.height - ball.radius; 
+	
+
+	
+
+	
+
+	} 
+	
+
+	
+
+	
+
+	ball.y += ball.velocityy; 
+	
+
+	ball.x += ball.velocityx; 
+	
+
+	
+
+	
+
+	context.fillStyle = "#000000"; 
+	
+
+	context.beginPath(); 
+	
+
+	context.arc(ball.x,ball.y,ball.radius,0,Math.PI*2,true); 
+	
+
+	context.closePath(); 
+	
+
+	context.fill(); 
+	
+
+	
+
+	
+
+	} 
+	
+
+	var speed = 4; 
+	
+
+	
+
+	
+
+	var gravity =eval(document.getElementById("txtGravity").value); 
+	
+
+	var angle = eval(document.getElementById("txtAngle").value); 
+	
+
+	var radians = angle * Math.PI/ 180; 
+	
+
+	var radius = 15; 
+	
+
+	var vx = Math.cos(radians) * speed; 
+	
+
+	var vy = Math.sin(radians) * speed; 
+	
+
+	if(context==null){ 
+	
+
+	theCanvas = document.getElementById("canvasOne"); 
+	
+
+	context = theCanvas.getContext("2d"); 
+	
+
+	} 
+	
+
+	var p1 = {x:20,y:150}; 
+	
+
+	var ball = {x:p1.x, y:p1.y, velocityx: vx, velocityy:vy, radius:radius}; 
+	
+
+	
+
+	
+
+	interval=setInterval(drawScreen, parseInt(document.getElementById("txtSpeed").value)); 
+	
+
+	
+
+	
+
+	} 
+	
+
+	function startAnimation(){ 
+	
+
+	clearInterval(interval); 
+	
+
+	canvasApp(); 
+	
+
+	} 
+	
+
+	</script> 
+	
+
+	
+
+	
+
+	</head> 
+	
+
+	<body> 
+	
+
+	<p> 
+	
+
+	Speed : <input type="number" id="txtSpeed" value="10" onchange="startAnimation()"/> 
+	
+
+	</p> 
+	
+
+	<p> 
+	
+
+	Gravity : <input type="number" id="txtGravity" value=".1" onchange="startAnimation()"/> 
+	
+
+	</p> 
+	
+
+	<p> 
+	
+
+	Angle : <input type="number" id="txtAngle" value="90" onchange="startAnimation()"/> 
+	
+
+	</p> 
+	
+
+	<div style="position: absolute; top: 140px; left: 50px;"> 
+	
+
+	
+
+	
+
+	<canvas id="canvasOne" width="500" height="500"> 
+	
+
+	Your browser does not support HTML5 Canvas. 
+	
+
+	</canvas> 
+	
+
+	</div> 
+	
+
+	</body> 
+	
+
+	</html>
